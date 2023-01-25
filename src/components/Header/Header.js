@@ -1,14 +1,13 @@
-const rootHeader = document.querySelector('.header')
+import "./style.css";
+import icon from "../../assets/i/trash_icon.png";
 
-
-class Header {
-
+export default class Header {
+  render() {
+    return(
+      `<header>
+        <h1>СДЕЛАЙТЕ ЗАКАЗ НАПРЯМУЮ ИЗ РЕСТОРАНА</h1>
+      </header>`
+    )
     
-  
-    render() {
-        rootHeader.innerHTML += "<h1>СДЕЛАЙТЕ ЗАКАЗ НАПРЯМУЮ ИЗ РЕСТОРАНА</h1>"
-    }
-  
   }
-
-new Header().render()
+}
