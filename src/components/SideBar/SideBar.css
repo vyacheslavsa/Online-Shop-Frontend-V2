@@ -1,0 +1,20 @@
+.side_bar {
+    background-color: white;
+    border-radius: var(--default-border-radius);
+    margin-bottom: 40px;
+    box-shadow: 0 0 10px var(--gray400);
+    overflow: hidden;
+    min-width: 235px;
+}
+
+.side_bar__link {
+    cursor: pointer;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 17px;
+}
+
+.side_bar__link:hover {
+    background-color: var(--yellow100);
+    color: var(--white);
+}

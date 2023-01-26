@@ -1,34 +1,59 @@
 import Header from "./components/Header/Header.js";
 import Container from "./components/Container/Container.js";
-import data from "./assets/data.json";
+import data from './assets/data.json'
+import './style.css'
 
 const rootElement = document.getElementById("root");
 
-(function () {
-  const headerComponent = new Header().render();
-  const containerComponent = new Container().render();
+export const ALL_CATEGORIES = {
+    breads: "breads",
+    fillings: "fillings",
+    sauces: "sauces",
+    sizes: "sizes",
+    vegetables: "vegetables",
+};
 
-  const ALL_COMPONENTS = [headerComponent, containerComponent];
+export const allObjData = [
+    ALL_CATEGORIES.breads,
+    ALL_CATEGORIES.fillings,
+    ALL_CATEGORIES.sauces,
+    ALL_CATEGORIES.sizes,
+    ALL_CATEGORIES.vegetables,
+];
 
-  let mainElement = "";
+const addIDforData = () => {
+    const generateID = () =>
+        String(Math.round(Math.random() * 10000000000000000000));
+    const addID = (arr) => {
+        arr.map((item) => (item.productID = generateID()));
+    };
+    allObjData.push("menu");
+    allObjData.forEach((item) => addID(data[item]));
+};
 
-  ALL_COMPONENTS.forEach((component) => {
+const reFormatData = () => {
+    allObjData.forEach((item) => {
+        const newArr = [];
+        for (const key in data[item]) {
+            newArr.push(data[item][key]);
+        }
+        data[item] = newArr;
+    });
+};
+
+reFormatData();
+addIDforData();
+
+const headerComponent = new Header().render();
+const containerComponent = new Container().render();
+
+const ALL_COMPONENTS = [headerComponent, containerComponent];
+
+let mainElement = "";
+
+ALL_COMPONENTS.forEach((component) => {
     mainElement += component;
-  });
+});
 
-  rootElement.innerHTML = mainElement;
-})();
+rootElement.innerHTML = mainElement;
 
-{
-  /* <header class="header"></header>
-    <div class="container">
-        <div class="left_content">
-            <aside class="side_bar"></aside>
-            <div class="shopping_cart"></div>
-        </div>
-        <main class="products_board"></main>
-    </div>
-    <div class="modal_bg"></div> */
-}
-
-// new Header().render()

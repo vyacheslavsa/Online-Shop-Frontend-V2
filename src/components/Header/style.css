@@ -1,3 +1,7 @@
-.test{
-    background-color: green;
+header {
+    text-align: center;
+}
+
+header h1 {
+    font-size: 30px;
 }

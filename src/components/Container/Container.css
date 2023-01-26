@@ -1,0 +1,7 @@
+.container {
+    display: flex;
+}
+
+.left_content {
+    width: 25%;
+}

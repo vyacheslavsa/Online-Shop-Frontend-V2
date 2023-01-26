@@ -1,0 +1,55 @@
+:root {
+    --gray100: #ecebe9;
+    --gray200: #cacaca;
+    --gray300: #b4b4b4;
+    --gray400: #a9a9a9;
+    --gray500: #808080;
+    --gray600: #444444;
+
+    --orange100: #ff7c0099;
+    --orange200: #d96848;
+
+    --yellow100: #f6d000;
+    --yellow200: #f4b200;
+    --yellow300: #f6bd00;
+    --yellow400: #cfa400;
+
+    --blue100: #5d9bcd;
+    --blue200: #1e2d3b;
+
+    --white: #ffffff;
+
+    --default-border-radius: 5px;
+}
+
+body {
+    background-color: var(--gray100);
+    color: var(--gray600);
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+p {
+    margin: 0;
+}
+
+header {
+    text-align: center;
+}
+
+header h1 {
+    font-size: 30px;
+}
+
+p {
+    margin: 0;
+}
+
+button {
+    padding: 0;
+    border: none;
+    font: inherit;
+    color: inherit;
+    background-color: transparent;
+    cursor: pointer;
+}

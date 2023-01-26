@@ -1,5 +1,4 @@
 import "./style.css";
-import icon from "../../assets/i/trash_icon.png";
 
 export default class Header {
   render() {
