@@ -53,3 +53,20 @@ button {
     background-color: transparent;
     cursor: pointer;
 }
+
+.container {
+    display: flex;
+}
+
+.left_content {
+    width: 25%;
+}
+
+.side_bar {
+    background-color: white;
+    border-radius: var(--default-border-radius);
+    margin-bottom: 40px;
+    box-shadow: 0 0 10px var(--gray400);
+    overflow: hidden;
+    min-width: 235px;
+}

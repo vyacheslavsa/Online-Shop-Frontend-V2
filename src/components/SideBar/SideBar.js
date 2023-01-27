@@ -1,51 +1,26 @@
+import { TAB_CATEGORIES } from "../../constans"
 import './SideBar.css'
 
-const TAB_CATEGORIES = [
-    {
-        category: 'pizza',
-        desc: 'Пицца'
-    },
-    {
-        category: 'shaurma',
-        desc: 'Шаурма'
-    },
-    {
-        category: 'sandwiches',
-        desc: 'Сендвичи'
-    },
-    {
-        category: 'burgers',
-        desc: 'Бургеры'
-    },
-    {
-        category: 'chicken',
-        desc: 'Курица & Картофель'
-    },
-    {
-        category: 'salads',
-        desc: 'Тортилья & Салаты'
-    },
-    {
-        category: 'drinks',
-        desc: 'Напитки & Десерты'
-    },
-]
-
 export default class SideBar {
-
-
-
-    render() {
-        let element = ''
-        TAB_CATEGORIES.map(item =>
-            element += `<nav class="side_bar__link" id=${item.category}>${item.desc}</nav>`
-        )
-
-        return (
-            `<aside class="side_bar">
-                ${element}
-            </aside>`
-        )
-
+    constructor(selectorName){
+        this.selectorName = selectorName
     }
+
+    addEvent(){
+        console.log(document.querySelectorAll('side_bar__link'))
+    }
+
+    render(){
+        const rootElement = document.querySelector(`.${this.selectorName}`)
+        
+        let html = ""
+
+        TAB_CATEGORIES.forEach(({category, name}) => {
+            html += `<nav class="side_bar__link active_tab" id=${category}>${name}</nav>`
+        })
+
+        rootElement.innerHTML = html
+        this.addEvent()
+    }
+    
 }
