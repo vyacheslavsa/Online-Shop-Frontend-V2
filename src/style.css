@@ -53,3 +53,22 @@ button {
     background-color: transparent;
     cursor: pointer;
 }
+
+.container {
+    display: flex;
+}
+
+.left_content {
+    width: 25%;
+}
+
+.products_board {
+    width: 75%;
+    height: auto;
+    margin-left: 10px;
+    text-align: center;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
