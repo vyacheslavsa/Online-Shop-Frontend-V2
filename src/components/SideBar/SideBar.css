@@ -18,3 +18,7 @@
     background-color: var(--yellow100);
     color: var(--white);
 }
+
+.active_tab {
+    background-color: var(--yellow200);
+}
