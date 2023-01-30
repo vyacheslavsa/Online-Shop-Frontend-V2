@@ -62,11 +62,13 @@ button {
     width: 25%;
 }
 
-.side_bar {
-    background-color: white;
-    border-radius: var(--default-border-radius);
-    margin-bottom: 40px;
-    box-shadow: 0 0 10px var(--gray400);
-    overflow: hidden;
-    min-width: 235px;
+.products_board {
+    width: 75%;
+    height: auto;
+    margin-left: 10px;
+    text-align: center;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
 }

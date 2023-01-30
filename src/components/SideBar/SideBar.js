@@ -1,26 +1,25 @@
-import { TAB_CATEGORIES } from "../../constans"
-import './SideBar.css'
+import { TAB_CATEGORIES } from "../../constans";
+import "./SideBar.css";
 
 export default class SideBar {
-    constructor(selectorName){
-        this.selectorName = selectorName
-    }
+  constructor(selectorName) {
+    this.selectorName = selectorName;
+  }
 
-    addEvent(){
-        console.log(document.querySelectorAll('side_bar__link'))
-    }
+  addEvent() {
+    const allTabs = document.querySelectorAll(".side_bar__link");
+  }
 
-    render(){
-        const rootElement = document.querySelector(`.${this.selectorName}`)
-        
-        let html = ""
+  render() {
+    const rootElement = document.querySelector(`.${this.selectorName}`);
 
-        TAB_CATEGORIES.forEach(({category, name}) => {
-            html += `<nav class="side_bar__link active_tab" id=${category}>${name}</nav>`
-        })
+    let html = "";
 
-        rootElement.innerHTML = html
-        this.addEvent()
-    }
-    
+    TAB_CATEGORIES.forEach(({ category, name }) => {
+      html += `<nav class="side_bar__link active_tab" id=${category}>${name}</nav>`;
+    });
+
+    rootElement.innerHTML = html;
+    this.addEvent();
+  }
 }
