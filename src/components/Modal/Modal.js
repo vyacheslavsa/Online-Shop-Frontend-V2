@@ -1,8 +1,41 @@
 import "./Modal.css";
+import {observer} from "../../App";
 
 export default class Modal {
   constructor(selectorName) {
     this.selectorName = selectorName;
+    observer.subscribe(() => this.render())
+  }
+
+  openModal(){
+    const modalParent = document.querySelector('.modal_window').parentNode
+
+    if(observer.state.openModal){
+      modalParent.classList.add('open_modal');
+    } else {
+      modalParent.classList.remove('open_modal');
+    }
+  }
+
+  addEvents(){
+    //on close
+    const buttonOnClose = document.querySelector('.modal_window__close_button');
+    buttonOnClose.addEventListener('click', () => observer.notify({openModal: false}));
+    //on tabs
+    const allTabsModal = document.querySelectorAll('.modal_window__tab');
+    for (let i = 0; i < allTabsModal.length; i++) {
+      if(observer.state.modalTab === allTabsModal[i].id){
+        allTabsModal[i].classList.add('active_ingredients')
+      }
+      allTabsModal[i].addEventListener('click', (e) => {
+        const currentChildren = e.target.parentElement.children;
+        for (let j = 0; j < currentChildren.length; j++) {
+          currentChildren[j].classList.remove('active_ingredients')
+        }
+        observer.notify({modalTab: allTabsModal[i].id})
+      })
+    }
+
   }
 
   render() {
@@ -16,9 +49,7 @@ export default class Modal {
         </div>
         <div class="modal_window__content">
             <div class="modal_window__tabs_panel">
-                <div class="modal_window__tab active_ingredients" id="sizes">
-                    Размер
-                </div>
+                <div class="modal_window__tab" id="sizes"> Размер</div>
                 <div class="modal_window__tab" id="breads">Хлеб</div>
                 <div class="modal_window__tab" id="vegetables">Овощи</div>
                 <div class="modal_window__tab" id="sauces">Соусы</div>
@@ -35,5 +66,7 @@ export default class Modal {
     </div>`;
 
     rootElement.innerHTML = element;
+    this.addEvents()
+    this.openModal()
   }
 }

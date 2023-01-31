@@ -2,69 +2,85 @@ import "./ProductCards.css";
 import donerLogo from "../../assets/i/markets/doner.png";
 import subwayLogo from "../../assets/i/markets/subway_logo.png";
 import sfcLogo from "../../assets/i/markets/south_fried_chicken.png";
-import { observer } from "../../App";
+import {observer} from "../../App";
 import data from "../../assets/data.json";
 
 export default class ProductCards {
-  constructor(selectorName) {
-    this.selectorName = selectorName;
-
-    observer.subscribe(() => {
-      this.render();
-    });
-  }
-
-  getLinkLogo(currentCategory) {
-    switch (currentCategory) {
-      case "doner":
-        return donerLogo;
-      case "subway":
-        return subwayLogo;
-      case "sfc":
-        return sfcLogo;
-      default:
-        return "";
+    constructor(selectorName) {
+        this.selectorName = selectorName;
+        observer.subscribe(() => this.render())
     }
-  }
 
-  render() {
-    const rootElement = document.querySelector(`.${this.selectorName}`);
+    getLinkLogo(currentCategory) {
+        switch (currentCategory) {
+            case "doner":
+                return donerLogo;
+            case "subway":
+                return subwayLogo;
+            case "sfc":
+                return sfcLogo;
+            default:
+                return "";
+        }
+    }
 
-    let element = "";
+    addProductInShoppingCart(currentProduct){
+        const findElement = observer.state.shoppingCart.find(item => item.productID === currentProduct.productID)
+        if(!findElement){
+            observer.notify({shoppingCart: [...observer.state.shoppingCart, currentProduct]})
+        }else {
+            const copyShoppingCart = [...observer.state.shoppingCart]
+            const index = copyShoppingCart.findIndex(item => item.productID === findElement.productID)
+            findElement.count++
+            copyShoppingCart[index] = {...findElement}
+            observer.notify({shoppingCart: [...copyShoppingCart]})
+        }
+    }
 
-    const menu = data.menu.filter(
-      (item) => item.category === observer.state.currentTab
-    );
+    addEvents() {
+        const allCardsElement = document.querySelectorAll('.product_card_btn_add');
 
-    menu.forEach((product,i) => {
-      const isSandwiches = product.category === "sandwiches";
-      product.count = 1;
+        for (let i = 0; i < allCardsElement.length; i++) {
+            allCardsElement[i].addEventListener('click', () => {
+                const currentProduct = data.menu.find(item => item.productID === allCardsElement[i].parentNode.id)
+                currentProduct.category === "sandwiches" ?
+                    observer.notify({openModal: true}) : this.addProductInShoppingCart(currentProduct)
+            })
+        }
+    }
 
-      element += `
-      <article class="product_card" id=${product.productID}>
-      <div class=${
-        product.market ? "product_card__logo__show" : "product_card__logo__hide"
-      }>
-          <img src=${this.getLinkLogo(product.market)} />
-      </div>
-      <div class="product_card__image">
-        <img src="${product.image}" alt="no_image" />
-      </div>
+    render() {
+        const rootElement = document.querySelector(`.${this.selectorName}`);
+
+        let element = "";
+
+        const menu = data.menu.filter(
+            (item) => item.category === observer.state.mainTab
+        );
+
+        menu.forEach((product, i) => {
+            const isSandwiches = product.category === "sandwiches";
+            product.count = 1;
+
+            element += `
+        <article class="product_card" id=${product.productID}>
+            <div class=${product.market ? "product_card__logo__show" : "product_card__logo__hide"}>
+                <img src=${this.getLinkLogo(product.market)} />
+            </div>
+          <div class="product_card__image">
+            <img src="${product.image}" alt="no_image" />
+          </div>
       <div class="product_card__name">
           <p>${product.name}</p>
       </div>
       <div class=${
-        product.description
-          ? "product_card__description__show"
-          : "product_card__description__hide"
-      }>
+                product.description
+                    ? "product_card__description__show"
+                    : "product_card__description__hide"
+            }>
           <a>${product.description}</a>
       </div>
-      ${
-        isSandwiches
-          ? "<p></p>"
-          : `<p class="product_card__price">Цена: ${product.price} руб.</p>`
-      }
+      ${isSandwiches ? "<p></p>" : `<p class="product_card__price">Цена: ${product.price} руб.</p>`}
       <div class="product_card__count">
           <p>КОЛИЧЕСТВО</p>
           <div class="product_card__board">
@@ -77,8 +93,9 @@ export default class ProductCards {
           ${isSandwiches ? "СОБРАТЬ" : "В КОРЗИНУ"}
       </button>
   </article>`;
-    });
+        });
 
-    rootElement.innerHTML = element;
-  }
+        rootElement.innerHTML = element;
+        this.addEvents()
+    }
 }

@@ -1,8 +1,11 @@
 export default class Observer {
   constructor() {
     this.state = {
-      currentTab: 'pizza',
-      test: 0
+      mainTab: 'sandwiches',
+      modalTab: 'sizes',
+      customSandwich: {},
+      shoppingCart: [],
+      openModal: true
     };
     this.observers = [];
   }
@@ -11,9 +14,9 @@ export default class Observer {
     this.observers.push(fn);
   }
 
-  unsubscribe(fn) {
-    this.observers = this.observers.filter((subscriber) => subscriber !== fn);
-  }
+  // unsubscribe(fn) {
+  //   this.observers = this.observers.filter((subscriber) => subscriber !== fn);
+  // }
 
   notify(data) {
     Object.assign(this.state, data);

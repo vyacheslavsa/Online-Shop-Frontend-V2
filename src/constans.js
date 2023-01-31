@@ -6,7 +6,7 @@ export const ALL_CATEGORIES = {
     vegetables: "vegetables",
 };
 
-export const allObjData = [
+export const CATEGORY = [
     ALL_CATEGORIES.breads,
     ALL_CATEGORIES.fillings,
     ALL_CATEGORIES.sauces,
