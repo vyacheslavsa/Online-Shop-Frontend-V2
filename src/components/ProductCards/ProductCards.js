@@ -1,15 +1,20 @@
-import data from "../../assets/data.json";
-import "./CardProduct.css";
+import "./ProductCards.css";
 import donerLogo from "../../assets/i/markets/doner.png";
 import subwayLogo from "../../assets/i/markets/subway_logo.png";
 import sfcLogo from "../../assets/i/markets/south_fried_chicken.png";
+import { observer } from "../../App";
+import data from "../../assets/data.json";
 
-export default class CardProduct {
+export default class ProductCards {
   constructor(selectorName) {
     this.selectorName = selectorName;
+
+    observer.subscribe(() => {
+      this.render();
+    });
   }
 
-  linkLogo(currentCategory) {
+  getLinkLogo(currentCategory) {
     switch (currentCategory) {
       case "doner":
         return donerLogo;
@@ -27,7 +32,11 @@ export default class CardProduct {
 
     let element = "";
 
-    data.menu.forEach((product) => {
+    const menu = data.menu.filter(
+      (item) => item.category === observer.state.currentTab
+    );
+
+    menu.forEach((product,i) => {
       const isSandwiches = product.category === "sandwiches";
       product.count = 1;
 
@@ -36,7 +45,7 @@ export default class CardProduct {
       <div class=${
         product.market ? "product_card__logo__show" : "product_card__logo__hide"
       }>
-          <img src=${this.linkLogo(product.market)} />
+          <img src=${this.getLinkLogo(product.market)} />
       </div>
       <div class="product_card__image">
         <img src="${product.image}" alt="no_image" />

@@ -3,6 +3,7 @@ const HTMLWebpackPligin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
+
 module.exports = {
   context: path.resolve(__dirname, "src"),
   mode: "development",
@@ -10,6 +11,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "[name].[contenthash].js",
+    clean: true,
   },
   devServer: {
     port: 3000,
@@ -19,7 +21,6 @@ module.exports = {
     new HTMLWebpackPligin({
       template: "./index.html",
     }),
-    new CleanWebpackPlugin(),
     new CopyWebpackPlugin({
       patterns: [
         {
@@ -28,6 +29,7 @@ module.exports = {
         },
       ],
     }),
+    new CleanWebpackPlugin(),
   ],
   module: {
     rules: [

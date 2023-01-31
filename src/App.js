@@ -1,9 +1,11 @@
 import ShopingCart from "./components/ShopingCart/ShopingCart";
 import Modal from "./components/Modal/Modal";
 import SideBar from "./components/SideBar/SideBar";
-import CardProduct from "./components/CardProduct/CardProduct";
+import ProductCards from "./components/ProductCards/ProductCards";
+import Observer from "./Observer";
 
 const rootElement = document.querySelector("#root");
+export const observer = new Observer();
 
 export default class App {
   render() {
@@ -25,6 +27,6 @@ export default class App {
     new SideBar("side_bar").render();
     new ShopingCart("shopping_cart").render();
     new Modal("modal_bg").render();
-    new CardProduct("products_board").render()
+    new ProductCards("products_board").render()
   }
 }
