@@ -14,7 +14,7 @@ export default class App {
         this.createID()
     }
 
-    createID(){
+    createID() {
         CATEGORY.forEach((item) => {
             const newArr = [];
             for (const key in data[item]) {
@@ -26,7 +26,7 @@ export default class App {
         const addID = (arr) => arr.map((item) => (item.productID = generateID()));
         CATEGORY.push("menu");
         CATEGORY.forEach((item) => addID(data[item]));
-        CATEGORY.splice(-1,1);
+        CATEGORY.splice(-1, 1);
     }
 
     render() {

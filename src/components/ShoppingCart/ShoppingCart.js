@@ -3,36 +3,36 @@ import shoppingCartLogo from "../../assets/i/shopping_cart.png";
 import {observer} from "../../App";
 
 export default class ShoppingCart {
-  constructor(selectorName) {
-    this.selectorName = selectorName;
-    observer.subscribe(() => this.render())
-  }
-
-  addEvents(){
-    const allButtonsDelete = document.querySelectorAll('.shopping_cart__item')
-    for (let i = 0; i < allButtonsDelete.length; i++) {
-      allButtonsDelete[i].addEventListener('click', () => {
-        const copyArr = [...observer.state.shoppingCart]
-        const index = observer.state.shoppingCart.findIndex(item => item.productID === allButtonsDelete[i].id)
-        copyArr.splice(index,1)
-        observer.notify({shoppingCart: copyArr})
-      })
+    constructor(selectorName) {
+        this.selectorName = selectorName;
+        observer.subscribe(() => this.render())
     }
-  }
 
-  calculatePrice(){
-    let sum = 0
-    if(observer.state.shoppingCart.length){
-      const arrPrice = observer.state.shoppingCart.map(item => item.price*item.count)
-      sum = arrPrice.reduce((acc,cur) => acc+cur)
+    addEvents() {
+        const allButtonsDelete = document.querySelectorAll('.shopping_cart__item')
+        for (let i = 0; i < allButtonsDelete.length; i++) {
+            allButtonsDelete[i].addEventListener('click', () => {
+                const copyArr = [...observer.state.shoppingCart]
+                const index = observer.state.shoppingCart.findIndex(item => item.productID === allButtonsDelete[i].id)
+                copyArr.splice(index, 1)
+                observer.notify({shoppingCart: copyArr})
+            })
+        }
     }
-    return sum;
-  }
 
-  renderContent(){
-    let html = ''
+    calculatePrice() {
+        let sum = 0
+        if (observer.state.shoppingCart.length) {
+            const arrPrice = observer.state.shoppingCart.map(item => item.price * item.count)
+            sum = arrPrice.reduce((acc, cur) => acc + cur)
+        }
+        return sum;
+    }
 
-    observer.state.shoppingCart.forEach(item => html += `
+    renderContent() {
+        let html = ''
+
+        observer.state.shoppingCart.forEach(item => html += `
         <div class="shopping_cart__item" id=${item.productID}>
         <p>${item.name}</p>
         <div>
@@ -42,12 +42,12 @@ export default class ShoppingCart {
       </div>
     `)
 
-    return html
-  }
+        return html
+    }
 
-  render() {
-    const rootElement = document.querySelector(`.${this.selectorName}`);
-    const html = `
+    render() {
+        const rootElement = document.querySelector(`.${this.selectorName}`);
+        const html = `
         <div class="shopping_cart__header">
             <div class="shopping_cart__box_shadow"></div>
             <img src=${shoppingCartLogo} alt="no_image_shop-card"/>
@@ -62,7 +62,7 @@ export default class ShoppingCart {
             <p class="shopping_cart__price">Итого: ${this.calculatePrice()} руб.</p>
         <button>ОФОРМИТЬ ЗАКАЗ</button>
         </div> `;
-    rootElement.innerHTML = html;
-    this.addEvents()
-  }
+        rootElement.innerHTML = html;
+        this.addEvents()
+    }
 }

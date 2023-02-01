@@ -24,11 +24,11 @@ export default class ProductCards {
         }
     }
 
-    addProductInShoppingCart(currentProduct){
+    addProductInShoppingCart(currentProduct) {
         const findElement = observer.state.shoppingCart.find(item => item.productID === currentProduct.productID)
-        if(!findElement){
+        if (!findElement) {
             observer.notify({shoppingCart: [...observer.state.shoppingCart, currentProduct]})
-        }else {
+        } else {
             const copyShoppingCart = [...observer.state.shoppingCart]
             const index = copyShoppingCart.findIndex(item => item.productID === findElement.productID)
             findElement.count++
@@ -44,18 +44,16 @@ export default class ProductCards {
             allCardsElement[i].addEventListener('click', () => {
                 const currentProduct = data.menu.find(item => item.productID === allCardsElement[i].parentNode.id)
 
-                currentProduct.category === "sandwiches" ?
-                    observer.notify({
-                        openModal: true,
-                        customSandwich: {
-                            allIdIngredients: [],
-                            count: currentProduct.count,
-                            image: currentProduct.image,
-                            name: currentProduct.name,
-                            price: 0,
-                            productID: currentProduct.productID
-                        }
-                    }) : this.addProductInShoppingCart(currentProduct)
+                currentProduct.category === "sandwiches" ? observer.notify({
+                    openModal: true, customSandwich: {
+                        allIdIngredients: [],
+                        count: currentProduct.count,
+                        image: currentProduct.image,
+                        name: currentProduct.name,
+                        price: 0,
+                        productID: currentProduct.productID
+                    }
+                }) : this.addProductInShoppingCart(currentProduct)
             })
         }
     }
@@ -65,9 +63,7 @@ export default class ProductCards {
 
         let element = "";
 
-        const menu = data.menu.filter(
-            (item) => item.category === observer.state.mainTab
-        );
+        const menu = data.menu.filter((item) => item.category === observer.state.mainTab);
 
         menu.forEach((product, i) => {
             const isSandwiches = product.category === "sandwiches";
@@ -84,11 +80,7 @@ export default class ProductCards {
       <div class="product_card__name">
           <p>${product.name}</p>
       </div>
-      <div class=${
-                product.description
-                    ? "product_card__description__show"
-                    : "product_card__description__hide"
-            }>
+      <div class=${product.description ? "product_card__description__show" : "product_card__description__hide"}>
           <a>${product.description}</a>
       </div>
       ${isSandwiches ? "<p></p>" : `<p class="product_card__price">Цена: ${product.price} руб.</p>`}

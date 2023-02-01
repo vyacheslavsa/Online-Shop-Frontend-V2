@@ -82,17 +82,17 @@
     font-size: 16px;
 }
 
-.shopping_cart__item>div>img {
+.shopping_cart__item > div > img {
     cursor: pointer;
 }
 
-.shopping_cart__item>div {
+.shopping_cart__item > div {
     display: flex;
     align-items: center;
     min-width: 45px;
 }
 
-.shopping_cart__item>div>p {
+.shopping_cart__item > div > p {
     margin-right: 10px;
 }
 

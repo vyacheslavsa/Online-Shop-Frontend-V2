@@ -18,7 +18,7 @@ export default class SideBar {
                     currentChildren[i].classList.remove("active_tab");
                 }
                 e.target.classList.add("active_tab");
-                observer.notify({ mainTab: e.target.id })
+                observer.notify({mainTab: e.target.id})
             });
         }
     }
