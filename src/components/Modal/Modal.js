@@ -36,7 +36,14 @@ export default class Modal {
         //on close
         const buttonOnClose = document.querySelector('.modal_window__close_button');
         buttonOnClose.addEventListener('click', () => {
-            observer.notify({openModal: false, customSandwich: {}})
+            observer.notify({openModal: false, customSandwich: {}, modalTab: 'sizes'})
+        });
+
+        // add product in shopping cart
+        const buttonAddProductInShoppingCart = document.querySelector('.modal_btn');
+        buttonAddProductInShoppingCart && buttonAddProductInShoppingCart.addEventListener('click', () => {
+            const copyShoppingCart = [...observer.state.shoppingCart, observer.state.customSandwich]
+            observer.notify({shoppingCart: copyShoppingCart, openModal: false, customSandwich: {}, modalTab: 'sizes'})
         });
 
         //on tabs
@@ -55,7 +62,7 @@ export default class Modal {
                 allTabsModal[i].classList.remove('have_ingredients')
             }
 
-            allTabsModal[i].addEventListener('click', (e) => {
+            allTabsModal[i].addEventListener('click', () => {
                 observer.notify({modalTab: allTabsModal[i].id})
             })
         }
