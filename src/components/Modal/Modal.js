@@ -58,23 +58,40 @@ export default class Modal {
         allCardModal[i].classList.remove("selected_ingredient");
       }
 
-      allCardModal[i].addEventListener("click", () => {
+      allCardModal[i].addEventListener("click", (e) => {
+        const isMultipleCategories = observer.state.modalTab !== ALL_CATEGORIES.vegetables && observer.state.modalTab !== ALL_CATEGORIES.sauces && observer.state.modalTab !== ALL_CATEGORIES.fillings
         const copyObj = observer.state.customSandwich;
         const selectedElement = data[observer.state.modalTab].find(item => item.productID === allCardModal[i].id);
 
         if(!observer.state.customSandwich.allIdIngredients.includes(allCardModal[i].id)) {
-
           copyObj.allIdIngredients = [...observer.state.customSandwich.allIdIngredients, allCardModal[i].id]
-          copyObj[observer.state.modalTab] = selectedElement.name
+
+          if(isMultipleCategories) {
+            copyObj[observer.state.modalTab] = selectedElement.name
+          } else {
+            if(!observer.state.customSandwich[observer.state.modalTab]){
+              copyObj[observer.state.modalTab] = [selectedElement.name]
+            } else {
+              copyObj[observer.state.modalTab] = [...observer.state.customSandwich[observer.state.modalTab] ,selectedElement.name]
+            }
+          }
           observer.notify({
             customSandwich: copyObj
           })
+
         } else {
           const copyArr = [...observer.state.customSandwich.allIdIngredients]
-          const indexElement = copyArr.findIndex(item => item === allCardModal[i])
+          const indexElement = copyArr.findIndex(item => item === allCardModal[i].id)
           copyArr.splice(indexElement,1)
           copyObj.allIdIngredients = copyArr
-          delete copyObj[observer.state.modalTab]
+
+          if(isMultipleCategories || copyObj[observer.state.modalTab].length === 1){
+            delete copyObj[observer.state.modalTab]
+          } else {
+            const indexElement = copyObj[observer.state.modalTab].findIndex(item => item === selectedElement.name)
+            copyObj[observer.state.modalTab].splice(indexElement,1)
+          }
+
           observer.notify({
             customSandwich: copyObj
           })
