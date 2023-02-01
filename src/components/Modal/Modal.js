@@ -50,30 +50,35 @@ export default class Modal {
     const allCardModal = document.querySelectorAll(".modal_window__card");
 
     for (let i = 0; i < allCardModal.length; i++) {
-
-
       if(observer.state.customSandwich.allIdIngredients.includes(allCardModal[i].id)){
         allCardModal[i].classList.add("selected_ingredient");
       }else {
         allCardModal[i].classList.remove("selected_ingredient");
       }
 
-      allCardModal[i].addEventListener("click", (e) => {
-        const isMultipleCategories = observer.state.modalTab !== ALL_CATEGORIES.vegetables && observer.state.modalTab !== ALL_CATEGORIES.sauces && observer.state.modalTab !== ALL_CATEGORIES.fillings
+      allCardModal[i].addEventListener("click", () => {
+        const isMultipleCategories = observer.state.modalTab === ALL_CATEGORIES.vegetables || observer.state.modalTab === ALL_CATEGORIES.sauces || observer.state.modalTab === ALL_CATEGORIES.fillings
         const copyObj = observer.state.customSandwich;
         const selectedElement = data[observer.state.modalTab].find(item => item.productID === allCardModal[i].id);
 
         if(!observer.state.customSandwich.allIdIngredients.includes(allCardModal[i].id)) {
-          copyObj.allIdIngredients = [...observer.state.customSandwich.allIdIngredients, allCardModal[i].id]
+
+          if(observer.state.customSandwich.hasOwnProperty(observer.state.modalTab) && !isMultipleCategories){
+            const idCurrenCategory = data[observer.state.modalTab].map(item => item.productID)
+            const index = copyObj.allIdIngredients.findIndex(item => idCurrenCategory.includes(item))
+            copyObj.allIdIngredients[index] = allCardModal[i].id
+          }else {
+            copyObj.allIdIngredients = [...observer.state.customSandwich.allIdIngredients, allCardModal[i].id]
+          }
 
           if(isMultipleCategories) {
-            copyObj[observer.state.modalTab] = selectedElement.name
-          } else {
             if(!observer.state.customSandwich[observer.state.modalTab]){
               copyObj[observer.state.modalTab] = [selectedElement.name]
             } else {
               copyObj[observer.state.modalTab] = [...observer.state.customSandwich[observer.state.modalTab] ,selectedElement.name]
             }
+          } else {
+            copyObj[observer.state.modalTab] = selectedElement.name
           }
           observer.notify({
             customSandwich: copyObj
@@ -85,7 +90,7 @@ export default class Modal {
           copyArr.splice(indexElement,1)
           copyObj.allIdIngredients = copyArr
 
-          if(isMultipleCategories || copyObj[observer.state.modalTab].length === 1){
+          if(!isMultipleCategories || copyObj[observer.state.modalTab].length === 1){
             delete copyObj[observer.state.modalTab]
           } else {
             const indexElement = copyObj[observer.state.modalTab].findIndex(item => item === selectedElement.name)
