@@ -1,7 +1,7 @@
 import "./Modal.css";
 import {observer} from "../../App";
 import data from '../../assets/data.json'
-import {ALL_CATEGORIES, TABS_MODAL} from "../../constans";
+import {ALL_CATEGORIES, CATEGORY, TABS_MODAL} from "../../constans";
 
 export default class Modal {
   constructor(selectorName) {
@@ -17,6 +17,15 @@ export default class Modal {
     } else {
       modalParent.classList.remove('open_modal');
     }
+  }
+
+  calculatePrice(){
+    const concatData = [];
+    CATEGORY.forEach(item => concatData.push(...data[item]))
+    const res = observer.state.customSandwich.allIdIngredients.map(value => {
+      return concatData.find(item => value === item.productID).price
+    })
+    return res.reduce((acc,cur)=>acc+cur) || 0
   }
 
   addEvents(){
@@ -80,9 +89,6 @@ export default class Modal {
           } else {
             copyObj[observer.state.modalTab] = selectedElement.name
           }
-          observer.notify({
-            customSandwich: copyObj
-          })
 
         } else {
           const copyArr = [...observer.state.customSandwich.allIdIngredients]
@@ -96,13 +102,11 @@ export default class Modal {
             const indexElement = copyObj[observer.state.modalTab].findIndex(item => item === selectedElement.name)
             copyObj[observer.state.modalTab].splice(indexElement,1)
           }
-
-          observer.notify({
-            customSandwich: copyObj
-          })
         }
-
-        console.log(observer.state.customSandwich)
+        copyObj.price = this.calculatePrice()
+        observer.notify({
+          customSandwich: copyObj
+        })
       });
     }
   }
@@ -152,16 +156,16 @@ export default class Modal {
         html = `
           <div class="modal_window__leftContent">
             <div class="product_card__image modal_image">
-              <img src="">
+              <img src=${observer.state.customSandwich.image}>
             </div>
           </div>
           <div class="modal_window__rightContent">
             <p class="modal_window__descriptionDone">Ваш сендвич готов!</p>
-            <p>Размер: </p>
-            <p>Хлеб: </p>
-            <p>Овощи: </p>
-            <p>Соусы: </p>
-            <p class="modal_window__descriptionLast">Начинка: </p>
+            <p>Размер: ${observer.state.customSandwich.sizes || '-'}</p>
+            <p>Хлеб: ${observer.state.customSandwich.breads || '-'}</p>
+            <p>Овощи: ${observer.state.customSandwich.vegetables || '-'}</p>
+            <p>Соусы: ${observer.state.customSandwich.sauces || '-'}</p>
+            <p class="modal_window__descriptionLast">Начинка: ${observer.state.customSandwich.fillings || '-'}</p>
             <p class="modal_window__nameSandwitch"></p>
           </div>
       `;
@@ -184,7 +188,7 @@ export default class Modal {
         </div>
         <div class="modal_window__footer">
             <div class="modal_window__bottomFooter">
-                <p class="product_card__price modal_price">Цена: 0 руб.</p>
+                <p class="product_card__price modal_price">Цена: ${observer.state.customSandwich.price} руб.</p>
             </div>
         </div>
     </div>`;
