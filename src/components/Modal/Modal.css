@@ -99,6 +99,12 @@
     background-color: var(--orange200) !important;
 }
 
+.done_tab {
+    display: flex;
+    gap: 0;
+    overflow: hidden;
+}
+
 .modal_window__ingredients {
     width: 90%;
     padding: 20px 0;
@@ -218,4 +224,12 @@
     justify-content: center;
     align-items: center;
     margin-top: 10px;
+}
+
+.modal_price {
+    margin-right: 10px;
+}
+
+.modal_btn {
+    margin-top: 0 !important;
 }

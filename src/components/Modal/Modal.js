@@ -25,10 +25,14 @@ export default class Modal {
     const res = observer.state.customSandwich.allIdIngredients.map(value => {
       return concatData.find(item => value === item.productID).price
     })
-    return res.reduce((acc,cur)=>acc+cur) || 0
+    return res.reduce((acc,cur)=>acc+cur)
   }
 
   addEvents(){
+    const containerContent = document.querySelector('.modal_window__ingredients')
+    if(observer.state.modalTab === 'done')containerContent.classList.add('done_tab')
+
+
     //on close
     const buttonOnClose = document.querySelector('.modal_window__close_button');
     buttonOnClose.addEventListener('click', () => {
@@ -103,7 +107,13 @@ export default class Modal {
             copyObj[observer.state.modalTab].splice(indexElement,1)
           }
         }
-        copyObj.price = this.calculatePrice()
+
+        if(copyObj.allIdIngredients.length){
+          copyObj.price = this.calculatePrice()
+        } else {
+          copyObj.price = 0
+        }
+
         observer.notify({
           customSandwich: copyObj
         })
@@ -136,6 +146,35 @@ export default class Modal {
     return html
   }
 
+  renderFooter(){
+    let html = ''
+
+    if(observer.state.modalTab !== ALL_CATEGORIES.done){
+      html = `
+        <div className="modal_window__bottomFooter">
+            <p className="product_card__price modal_price">Цена: ${observer.state.customSandwich.price} руб.</p>
+        </div>`
+    }else {
+      html = `
+      
+      <div class="product_card__count count_modal">
+        <p>КОЛИЧЕСТВО</p>
+        <div class="product_card__board modal_board">
+          <button class="product_card__inc-dec dec_modal">-</button>
+          <p class="product_card__value count_modal_value">1</p>
+          <button class="product_card__inc-dec inc_modal">+</button>
+        </div>
+      </div>
+            <div class="modal_window__bottomFooter">
+                <p class="product_card__price modal_price">Цена: ${observer.state.customSandwich.price} руб.</p>
+            <button class="product_card_btn_add modal_btn">В корзину</button>
+      </div>
+      `
+    }
+
+    return html
+  }
+
   renderContent(){
     let html = ''
     if(observer.state.modalTab !== ALL_CATEGORIES.done) {
@@ -152,7 +191,7 @@ export default class Modal {
           </div>
     `
       })
-    }else {
+    } else {
         html = `
           <div class="modal_window__leftContent">
             <div class="product_card__image modal_image">
@@ -166,7 +205,7 @@ export default class Modal {
             <p>Овощи: ${observer.state.customSandwich.vegetables || '-'}</p>
             <p>Соусы: ${observer.state.customSandwich.sauces || '-'}</p>
             <p class="modal_window__descriptionLast">Начинка: ${observer.state.customSandwich.fillings || '-'}</p>
-            <p class="modal_window__nameSandwitch"></p>
+            <p class="modal_window__nameSandwitch">${observer.state.customSandwich.name || '-'}</p>
           </div>
       `;
     }
@@ -186,11 +225,7 @@ export default class Modal {
             <div class="modal_window__tabs_panel">${this.renderTabs()}</div>
             <div class="modal_window__ingredients">${this.renderContent()}</div>
         </div>
-        <div class="modal_window__footer">
-            <div class="modal_window__bottomFooter">
-                <p class="product_card__price modal_price">Цена: ${observer.state.customSandwich.price} руб.</p>
-            </div>
-        </div>
+        <div class="modal_window__footer">${this.renderFooter()}</div>
     </div>`;
 
     rootElement.innerHTML = element;
