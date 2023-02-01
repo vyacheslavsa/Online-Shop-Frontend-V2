@@ -4,6 +4,7 @@ export const ALL_CATEGORIES = {
     sauces: "sauces",
     sizes: "sizes",
     vegetables: "vegetables",
+    done: "done"
 };
 
 export const CATEGORY = [
@@ -42,5 +43,32 @@ export const TAB_CATEGORIES = [
     {
         category: 'drinks',
         name: 'Напитки & Десерты'
+    },
+];
+
+export const TABS_MODAL = [
+    {
+        category: ALL_CATEGORIES.sizes,
+        name: 'Размер'
+    },
+    {
+        category: ALL_CATEGORIES.breads,
+        name: 'Хлеб'
+    },
+    {
+        category: ALL_CATEGORIES.vegetables,
+        name: 'Овощи'
+    },
+    {
+        category: ALL_CATEGORIES.sauces,
+        name: 'Соусы'
+    },
+    {
+        category: ALL_CATEGORIES.fillings,
+        name: 'Начинка'
+    },
+    {
+        category: ALL_CATEGORIES.done,
+        name: 'Готово!'
     },
 ]

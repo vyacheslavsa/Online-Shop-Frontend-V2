@@ -43,8 +43,19 @@ export default class ProductCards {
         for (let i = 0; i < allCardsElement.length; i++) {
             allCardsElement[i].addEventListener('click', () => {
                 const currentProduct = data.menu.find(item => item.productID === allCardsElement[i].parentNode.id)
+
                 currentProduct.category === "sandwiches" ?
-                    observer.notify({openModal: true}) : this.addProductInShoppingCart(currentProduct)
+                    observer.notify({
+                        openModal: true,
+                        customSandwich: {
+                            allIdIngredients: [],
+                            count: currentProduct.count,
+                            image: currentProduct.image,
+                            name: currentProduct.name,
+                            price: 0,
+                            productID: currentProduct.productID
+                        }
+                    }) : this.addProductInShoppingCart(currentProduct)
             })
         }
     }

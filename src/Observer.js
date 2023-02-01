@@ -5,7 +5,7 @@ export default class Observer {
       modalTab: 'sizes',
       customSandwich: {},
       shoppingCart: [],
-      openModal: true
+      openModal: false
     };
     this.observers = [];
   }
