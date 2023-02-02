@@ -1,13 +1,15 @@
+import data from './assets/data.json'
+
 export default class Observer {
     constructor() {
         this.state = {
-            mainTab: 'sandwiches',
+            data: data,
+            mainTab: 'pizza',
             modalTab: 'sizes',
             customSandwich: {},
             shoppingCart: [],
             openModal: false,
         };
-        // this.observers = [];
         this.observers = [];
     }
 

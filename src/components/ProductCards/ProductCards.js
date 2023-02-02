@@ -3,12 +3,11 @@ import donerLogo from "../../assets/i/markets/doner.png";
 import subwayLogo from "../../assets/i/markets/subway_logo.png";
 import sfcLogo from "../../assets/i/markets/south_fried_chicken.png";
 import {observer} from "../../App";
-import data from "../../assets/data.json";
 
 export default class ProductCards {
     constructor(selectorName) {
         this.selectorName = selectorName;
-        observer.subscribe(() => this.render(), ['mainTab'])
+        observer.subscribe(() => this.render(), ['mainTab', 'data'])
     }
 
     getLinkLogo(currentCategory) {
@@ -25,13 +24,15 @@ export default class ProductCards {
     }
 
     addProductInShoppingCart(currentProduct) {
-        const findElement = observer.state.shoppingCart.find(item => item.productID === currentProduct.productID)
+        
+        const findElement = [...observer.state.shoppingCart].find(item => item.productID === currentProduct.productID)
         if (!findElement) {
-            observer.notify({shoppingCart: [...observer.state.shoppingCart, currentProduct]})
+            observer.notify({shoppingCart: [...observer.state.shoppingCart, {...currentProduct}]})
         } else {
             const copyShoppingCart = [...observer.state.shoppingCart]
             const index = copyShoppingCart.findIndex(item => item.productID === findElement.productID)
-            findElement.count++
+            const countInShoppingCart = observer.state.shoppingCart.find(item => item.productID === {...currentProduct}.productID)
+            findElement.count = currentProduct.count+countInShoppingCart.count
             copyShoppingCart[index] = {...findElement}
             observer.notify({shoppingCart: [...copyShoppingCart]})
         }
@@ -44,7 +45,7 @@ export default class ProductCards {
 
         for (let i = 0; i < allCardsElement.length; i++) {
             allCardsElement[i].addEventListener('click', () => {
-                const currentProduct = data.menu.find(item => item.productID === allCardsElement[i].parentNode.id)
+                const currentProduct = observer.state.data.menu.find(item => item.productID === allCardsElement[i].parentNode.id)
 
                 currentProduct.category === "sandwiches" ? observer.notify({
                     openModal: true, customSandwich: {
@@ -59,11 +60,34 @@ export default class ProductCards {
             })
         }
 
-        //on count
+        //on inc count
         const producyInc = document.querySelectorAll('.product_inc');
         for (let i = 0; i < producyInc.length; i++) {
-            // console.log(producyInc[i].parentNode.parentNode.parentNode.id)
-            
+            producyInc[i].addEventListener('click', () => {
+                const copyArr = {...observer.state.data}
+                copyArr.menu.forEach(item => {
+                    if(item.productID === producyInc[i].parentNode.parentNode.parentNode.id){
+                        item.count++
+                    }
+                })
+                observer.notify({data: copyArr})
+            })
+        }
+
+        //on dec count
+        const producyDec = document.querySelectorAll('.product_dec');
+        for (let i = 0; i < producyDec.length; i++) {
+            producyDec[i].addEventListener('click', () => {
+                const copyArr = {...observer.state.data}
+                copyArr.menu.forEach(item => {
+                    if(item.productID === producyDec[i].parentNode.parentNode.parentNode.id){
+                        if(item.count>1){
+                            item.count--
+                        }
+                    }
+                })
+                observer.notify({data: copyArr})
+            })
         }
         
 
@@ -74,11 +98,11 @@ export default class ProductCards {
 
         let element = "";
 
-        const menu = data.menu.filter((item) => item.category === observer.state.mainTab);
+        const menu = observer.state.data.menu.filter((item) => item.category === observer.state.mainTab);
 
-        menu.forEach((product, i) => {
+        menu.forEach(product => {
             const isSandwiches = product.category === "sandwiches";
-            product.count = 1;
+            
 
             element += `
         <article class="product_card" id=${product.productID}>

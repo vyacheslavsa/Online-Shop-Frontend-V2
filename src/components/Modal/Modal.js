@@ -126,6 +126,28 @@ export default class Modal {
                 })
             });
         }
+
+        //on btn inc_dec
+
+        const incModal = document.querySelectorAll('.inc_modal')
+        for (let i = 0; i < incModal.length; i++) {
+            incModal[i].addEventListener('click', () => {
+                const copyCustomSandwich = {...observer.state.customSandwich}
+                copyCustomSandwich.count++
+                observer.notify({customSandwich: copyCustomSandwich})
+            })
+        }
+
+        const decModal = document.querySelectorAll('.dec_modal')
+        for (let i = 0; i < decModal.length; i++) {
+            decModal[i].addEventListener('click', () => {
+                const copyCustomSandwich = {...observer.state.customSandwich}
+                if(copyCustomSandwich.count>1){
+                    copyCustomSandwich.count--
+                    observer.notify({customSandwich: copyCustomSandwich})
+                }
+            })
+        }
     }
 
     getHeaderText() {
@@ -168,7 +190,7 @@ export default class Modal {
         <p>КОЛИЧЕСТВО</p>
         <div class="product_card__board modal_board">
           <button class="product_card__inc-dec dec_modal">-</button>
-          <p class="product_card__value count_modal_value">1</p>
+          <p class="product_card__value count_modal_value">${observer.state.customSandwich.count}</p>
           <button class="product_card__inc-dec inc_modal">+</button>
         </div>
       </div>

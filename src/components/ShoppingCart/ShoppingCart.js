@@ -13,7 +13,7 @@ export default class ShoppingCart {
         for (let i = 0; i < allButtonsDelete.length; i++) {
             allButtonsDelete[i].addEventListener('click', () => {
                 const copyArr = [...observer.state.shoppingCart]
-                const index = observer.state.shoppingCart.findIndex(item => item.productID === allButtonsDelete[i].id)
+                const index = observer.state.shoppingCart.findIndex(item => item.productID === allButtonsDelete[i].parentNode.parentNode.id)
                 copyArr.splice(index, 1)
                 observer.notify({shoppingCart: copyArr})
             })

@@ -27,6 +27,8 @@ export default class App {
         CATEGORY.push("menu");
         CATEGORY.forEach((item) => addID(data[item]));
         CATEGORY.splice(-1, 1);
+
+        data.menu.forEach(item => item.count = 1)
     }
 
     render() {
