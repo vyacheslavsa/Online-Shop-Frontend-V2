@@ -6,7 +6,7 @@ import {ALL_CATEGORIES, CATEGORY, TABS_MODAL} from "../../constans";
 export default class Modal {
     constructor(selectorName) {
         this.selectorName = selectorName;
-        observer.subscribe(() => this.render())
+        observer.subscribe(() => this.render(),['openModal', 'modalTab', 'customSandwich'])
     }
 
     openModal() {

@@ -5,14 +5,17 @@ export default class Observer {
             modalTab: 'sizes',
             customSandwich: {},
             shoppingCart: [],
-            openModal: false
+            openModal: false,
         };
         // this.observers = [];
         this.observers = [];
     }
 
-    subscribe(fn) {
-        this.observers.push(fn);
+    subscribe(fn, deps = Object.keys(this.state)) {
+        this.observers.push({
+            deps: deps,
+            fn: fn
+        });
     }
 
     // unsubscribe(fn) {
@@ -20,7 +23,13 @@ export default class Observer {
     // }
 
     notify(data) {
-        Object.assign(this.state, data);
-        this.observers.forEach((subscriber) => subscriber(this.state));
+        this.observers.forEach((subscriber) => {
+            Object.keys(data).forEach(item => {
+                if(subscriber.deps.includes(item)){
+                    Object.assign(this.state, data);
+                    subscriber.fn(this.state)
+                }
+            })
+        });
     }
 }

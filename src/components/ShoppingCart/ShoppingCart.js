@@ -5,7 +5,7 @@ import {observer} from "../../App";
 export default class ShoppingCart {
     constructor(selectorName) {
         this.selectorName = selectorName;
-        observer.subscribe(() => this.render())
+        observer.subscribe(() => this.render(), ['shoppingCart'])
     }
 
     addEvents() {

@@ -8,7 +8,7 @@ import data from "../../assets/data.json";
 export default class ProductCards {
     constructor(selectorName) {
         this.selectorName = selectorName;
-        observer.subscribe(() => this.render())
+        observer.subscribe(() => this.render(), ['mainTab'])
     }
 
     getLinkLogo(currentCategory) {
@@ -62,7 +62,7 @@ export default class ProductCards {
         //on count
         const producyInc = document.querySelectorAll('.product_inc');
         for (let i = 0; i < producyInc.length; i++) {
-            console.log(producyInc[i].parentNode.parentNode.parentNode.id)
+            // console.log(producyInc[i].parentNode.parentNode.parentNode.id)
             
         }
         
