@@ -9,7 +9,7 @@ export default class ShoppingCart {
     }
 
     addEvents() {
-        const allButtonsDelete = document.querySelectorAll('.shopping_cart__item')
+        const allButtonsDelete = document.querySelectorAll('.shopping_cart__delete_icon')
         for (let i = 0; i < allButtonsDelete.length; i++) {
             allButtonsDelete[i].addEventListener('click', () => {
                 const copyArr = [...observer.state.shoppingCart]

@@ -38,6 +38,8 @@ export default class ProductCards {
     }
 
     addEvents() {
+
+        //on btn add
         const allCardsElement = document.querySelectorAll('.product_card_btn_add');
 
         for (let i = 0; i < allCardsElement.length; i++) {
@@ -56,6 +58,15 @@ export default class ProductCards {
                 }) : this.addProductInShoppingCart(currentProduct)
             })
         }
+
+        //on count
+        const producyInc = document.querySelectorAll('.product_inc');
+        for (let i = 0; i < producyInc.length; i++) {
+            console.log(producyInc[i].parentNode.parentNode.parentNode.id)
+            
+        }
+        
+
     }
 
     render() {

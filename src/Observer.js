@@ -7,6 +7,7 @@ export default class Observer {
             shoppingCart: [],
             openModal: false
         };
+        // this.observers = [];
         this.observers = [];
     }
 

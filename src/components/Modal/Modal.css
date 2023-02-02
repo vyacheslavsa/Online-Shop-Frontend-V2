@@ -52,7 +52,7 @@
 }
 
 .modal_window__content {
-    height: 100%;
+    height: calc(90% - 58px);
     background-color: var(--gray100);
 
     display: flex;
@@ -63,7 +63,7 @@
 .modal_window__tabs_panel {
     display: flex;
     align-items: center;
-    height: 50px;
+    min-height: 50px;
     width: 90%;
     border-radius: var(--default-border-radius);
     background-color: var(--white);
@@ -99,16 +99,11 @@
     background-color: var(--orange200) !important;
 }
 
-.done_tab {
-    display: flex;
-    gap: 0;
-    overflow: hidden;
-}
-
 .modal_window__ingredients {
     width: 90%;
     padding: 20px 0;
-    height: 67%;
+    height: fit-content;
+    min-height: calc(100% - 108px - 5%);
     overflow-y: scroll;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -174,12 +169,6 @@
     background-color: var(--orange100);
 }
 
-.done_tab {
-    display: flex;
-    gap: 0;
-    overflow: hidden;
-}
-
 .modal_window__leftContent {
     display: flex;
     justify-content: center;
@@ -232,4 +221,12 @@
 
 .modal_btn {
     margin-top: 0 !important;
+}
+
+.done_tab {
+    display: flex;
+    gap: 0;
+    overflow: hidden;
+
+    min-height: calc(100% - 5% - 265px) !important;
 }
