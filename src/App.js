@@ -9,9 +9,15 @@ import {CATEGORY} from "./constans";
 const rootElement = document.querySelector("#root");
 export const observer = new Observer();
 
+const generateID = () => String(Math.round(Math.random() * 10000000000000000000));
+const addID = (arr) => arr.map((item) => (item.productID = generateID()));
+
 export default class App {
     constructor() {
         this.createID()
+        observer.subscribe(()=>{
+            this.render()
+        }, ['openModal'])
     }
 
     createID() {
@@ -22,8 +28,7 @@ export default class App {
             }
             data[item] = newArr;
         });
-        const generateID = () => String(Math.round(Math.random() * 10000000000000000000));
-        const addID = (arr) => arr.map((item) => (item.productID = generateID()));
+
         CATEGORY.push("menu");
         CATEGORY.forEach((item) => addID(data[item]));
         CATEGORY.splice(-1, 1);
@@ -42,7 +47,7 @@ export default class App {
               <div class="shopping_cart"></div>
           </div>
           <main class="products_board"></main>
-          <div class="modal_bg"></div>
+          <div class="modal_bg ${observer.state.openModal ? 'open_modal' : ''}"></div>
           `;
 
         new SideBar("side_bar").render();
